@@ -25,7 +25,7 @@ def compute_score(M, X, w, y):
     score = 0 #initialise with empty score
     for j in range(0, M):
         yhat = w[0] + (w[1] * X[j])
-        score = score + (y[j] - yhat)**2 
+        score = score + ((y[j] - yhat)**2 )
         
     score = score/2.0
     return score
@@ -65,7 +65,7 @@ def r_squared(M, X, w, y):
    v = 0
    for j in range(0, M): 
        ymean = np.mean(y)
-       v = v + (y[j] - ymean) ** 2
+       v = v + ((y[j] - ymean) ** 2)
        
    r2 = 1 - (u/v)
 
@@ -97,7 +97,7 @@ X = [float(i) for i in london[london.columns[70]].tolist() if not math.isnan(flo
 M = len(X)
 w = [0,0]
 y = [float(i) for i in london[london.columns[71]].tolist() if not math.isnan(float(i))]
-alpha = 0.001
+alpha = 0.0001
 while n > 0: 
     w = gradient_descent_2(M, X, w, y, alpha)
     n -= 1
@@ -122,24 +122,23 @@ print "R2 score: "
 print r_squared(M, X, w, y)
 
 ### Testing Over to see if R2 increases ###
-n = 0
+n = 100
 # set values to feed into function
 
 X = [float(i) for i in london[london.columns[70]].tolist() if not math.isnan(float(i))]
 M = len(X)
 w = [0,0]
 y = [float(i) for i in london[london.columns[71]].tolist() if not math.isnan(float(i))]
-alpha = 0.001
+alpha = 0.0001
 
 r2s = []
 
-while n < 100: 
+while n > 0: 
     w = gradient_descent_2(M, X, w, y, alpha)
     r2s.append(r_squared(M, X, w, y))
-    print r_squared(M, X, w, y)
-    n += 1    
+    n -= 1   
 
-plt.plot(r2s)
+plt.plot(range(0,100), r2s)
 plt.xlabel('Number of iterations')
 plt.ylabel('R-squared value')
 
